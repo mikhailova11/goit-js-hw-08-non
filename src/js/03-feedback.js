@@ -14,20 +14,20 @@ const refs = {
     submit: document.querySelector('button'),
 };
 
-refs.email.addEventListener('input', throttle(onEmailInput, 500));
-refs.message.addEventListener('input', throttle(onMessageInput, 500));
-refs.submit.addEventListener('submit', onFormSubmit);
+refs.form.addEventListener('submit', onFormSubmit);
 
-
-const onEmailInput = function(e){
+refs.email.addEventListener('input', throttle((e) => {
     localStorageDate.email=e.target.value;
-    localStorage.setItem(storageDate, JSON.stringify(localStorageDate))
-};
-const onMessageInput = function (e){
+    localStorage.setItem(storageDate, JSON.stringify(localStorageDate));
+}, 500));
+
+
+refs.message.addEventListener('input', throttle((e) => {
     localStorageDate.message=e.target.value;
-    localStorage.setItem(storageDate, JSON.stringify(localStorageDate))
-};
-const onFormSubmit= function (e){
+    localStorage.setItem(storageDate, JSON.stringify(localStorageDate));
+}, 500));
+
+ function onFormSubmit (e){
     e.preventDefault();
 
     if (localStorage.getItem(storageDate)) {
@@ -36,13 +36,14 @@ const onFormSubmit= function (e){
     e.currentTarget.reset();
     localStorage.removeItem(storageDate)
 };
-const saveData = function(){
+
+function saveData () {
     let savedData = JSON.parse(localStorage.getItem(storageDate))
-    if (savedMessage) {
+    if (savedData) {
         localStorageDate.email = savedData.email;
         localStorageDate.message = savedData.message;
         refs.email.value = localStorageDate.email;
         refs.message.value = localStorageDate.message;
     }
+    return;
 };
-console.log(saveData);
